@@ -1,0 +1,22 @@
+#Environment#
+*env*
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+media
+
+# Backup files # 
+*.bak
