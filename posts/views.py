@@ -4,6 +4,7 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from rest_framework import status
 
 from .models import Post
 # Create your views here.
@@ -38,21 +39,21 @@ def list_posts(request):
    if request.method == 'GET':
       posts = Post.objects.all()  # get the querySet
       serializer = PostSerializer(posts, many=True)
-      return Response(serializer.data)
+      return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])   
 def post_detail(request, pk):
   post = Post.objects.get(id=pk)  # get the specific post
   serializer = PostSerializer(post, many=False)
   #return JsonResponse(serializer.data)
-  return Response(serializer.data)
+  return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def post_create(request):
   serializer = PostSerializer(data=request.data)
   if serializer.is_valid():
     serializer.save()
-  return Response(serializer.data)
+  return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def post_update(request, pk):
@@ -60,13 +61,13 @@ def post_update(request, pk):
   serializer = PostSerializer(instance=post, data=request.data)
   if serializer.is_valid():
     serializer.save()
-  return Response(serializer.data)
+  return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 def post_delete(request, pk):
   post = Post.objects.get(id=pk)  # get the specific post
   post.delete()
-  return Response('Delete successful')
+  return Response('Delete successful', status=status.HTTP_200_OK)
 
 
 
