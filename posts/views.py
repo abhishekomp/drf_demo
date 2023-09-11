@@ -1,5 +1,9 @@
 from django.shortcuts import render
+from .serializers import PostSerializer
 from django.http import HttpRequest, JsonResponse
+from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
 
 from .models import Post
 # Create your views here.
@@ -8,6 +12,64 @@ def homepage(request:HttpRequest):
   #response = {"message": "Hello Django Rest Framework"}
   return JsonResponse("Hello Django Rest Framework", safe=False)
 
+@api_view(['GET'])
 def api_endpoints(request:HttpRequest):
-  response = {"api_urls": "API End points"}
-  return JsonResponse(data=response)
+  api_urls = {
+    'list_posts': '/post-list/',
+    'post_detail': '/post-detail/<str:pk>/',
+    'post-create': '/post-create/',
+    'post-update': '/post-update/<str:pk>/',
+    'post-delete': '/post-delete/<str:pk>/',
+  }
+  response = {"api_endpoints": api_urls}
+  #return JsonResponse(data=response)
+  return Response(api_urls)   # this is the response from the rest framework for a better view in the browser
+
+# Using JsonResponse to return the serialized data. When using JsonResponse, then no need to use @api_view
+# def list_posts(request):
+#    if request.method == 'GET':
+#       posts = Post.objects.all()  # get the querySet
+#       serializer = PostSerializer(posts, many=True)
+#       return JsonResponse(serializer.data, safe=False)
+
+#Using Response class provided by Django Rest Framework
+@api_view(['GET'])
+def list_posts(request):
+   if request.method == 'GET':
+      posts = Post.objects.all()  # get the querySet
+      serializer = PostSerializer(posts, many=True)
+      return Response(serializer.data)
+
+@api_view(['GET'])   
+def post_detail(request, pk):
+  post = Post.objects.get(id=pk)  # get the specific post
+  serializer = PostSerializer(post, many=False)
+  #return JsonResponse(serializer.data)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def post_create(request):
+  serializer = PostSerializer(data=request.data)
+  if serializer.is_valid():
+    serializer.save()
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def post_update(request, pk):
+  post = Post.objects.get(id=pk)  # get the specific post
+  serializer = PostSerializer(instance=post, data=request.data)
+  if serializer.is_valid():
+    serializer.save()
+  return Response(serializer.data)
+
+@api_view(['DELETE'])
+def post_delete(request, pk):
+  post = Post.objects.get(id=pk)  # get the specific post
+  post.delete()
+  return Response('Delete successful')
+
+
+
+
+
+

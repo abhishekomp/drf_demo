@@ -19,9 +19,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('posts.urls'))
+    path('post-api/', include('posts.urls'))
 ]
 
+# Customising the Django Admin UI
 admin.site.site_header = "Simple Blog post Admin"
 admin.site.site_title = "Blog post Admin Portal"
 admin.site.index_title = "Welcome to Blog Post Portal"
