@@ -1,6 +1,7 @@
 from . import views as api_views
 from django.urls import path
 from rest_framework.authtoken import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # urlpatterns for the function based view implementation
 # urlpatterns = [
@@ -21,4 +22,6 @@ urlpatterns = [
     path("postAPIView", api_views.PostsAPIView.as_view()),
     path("postDetailAPIView/<int:pk>", api_views.PostDetailAPIView.as_view()),
     path("get-auth-token/", views.obtain_auth_token),  # this view accepts post request
+    path("jwt-token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("jwt-token-refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
