@@ -19,8 +19,12 @@ urlpatterns = [
     path(
         "", api_views.api_endpoints, name="api_endpoints"
     ),  # this maps to a function based view to return all the available endpoints
-    path("postAPIView", api_views.PostsAPIView.as_view()),
-    path("postDetailAPIView/<int:pk>", api_views.PostDetailAPIView.as_view()),
+    path("postAPIView", api_views.PostsAPIView.as_view(), name="postAPIView"),
+    path(
+        "postDetailAPIView/<int:pk>",
+        api_views.PostDetailAPIView.as_view(),
+        name="postAPIDetailView",
+    ),
     path("get-auth-token/", views.obtain_auth_token),  # this view accepts post request
     path("jwt-token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("jwt-token-refresh/", TokenRefreshView.as_view(), name="token_refresh"),
