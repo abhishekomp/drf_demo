@@ -13,5 +13,6 @@
 - Test to verify if we can invoke the put endpoint and update the blogpost's title
 
 Note: Mac Postgres 15 start:
-LC_ALL="C" /opt/homebrew/opt/postgresql@15/bin/postgres -D /opt/homebrew/var/postgresql@15
-Check your case for the relevant db start command.
+
+- LC_ALL="C" /opt/homebrew/opt/postgresql@15/bin/postgres -D /opt/homebrew/var/postgresql@15
+- Check your case for the relevant db start command.
