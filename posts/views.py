@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Post
 
@@ -17,6 +18,8 @@ from django.http import Http404
 
 # Class based view
 class PostsAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         posts = Post.objects.all()  # get the querySet
         serializer = PostSerializer(posts, many=True)
@@ -30,6 +33,8 @@ class PostsAPIView(APIView):
 
 
 class PostDetailAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Post.objects.get(id=pk)  # get the specific post

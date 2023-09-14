@@ -1,5 +1,6 @@
-from . import views
+from . import views as api_views
 from django.urls import path
+from rest_framework.authtoken import views
 
 # urlpatterns for the function based view implementation
 # urlpatterns = [
@@ -15,8 +16,9 @@ from django.urls import path
 # urlpatterns for the class based view implementation
 urlpatterns = [
     path(
-        "", views.api_endpoints, name="api_endpoints"
+        "", api_views.api_endpoints, name="api_endpoints"
     ),  # this maps to a function based view to return all the available endpoints
-    path("postAPIView", views.PostsAPIView.as_view()),
-    path("postDetailAPIView/<int:pk>", views.PostDetailAPIView.as_view()),
+    path("postAPIView", api_views.PostsAPIView.as_view()),
+    path("postDetailAPIView/<int:pk>", api_views.PostDetailAPIView.as_view()),
+    path("get-auth-token/", views.obtain_auth_token),  # this view accepts post request
 ]
