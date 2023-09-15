@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # my apps
     "posts.apps.PostsConfig",
+    "comments_app.apps.CommentsAppConfig",
     # third party apps
     "rest_framework",
     "rest_framework.authtoken",

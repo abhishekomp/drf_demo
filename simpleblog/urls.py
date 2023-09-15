@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from comments_app import views as comments_app_views
+from rest_framework.routers import DefaultRouter
+
+# Creating Router object
+router = DefaultRouter()
+
+# Register CommentViewSet with Router
+router.register("", comments_app_views.CommentViewSet, basename="comment")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('post-api/', include('posts.urls'))
+    path("admin/", admin.site.urls),
+    path("post-api/", include("posts.urls")),
+    path("comment-api/", include(router.urls)),
 ]
 
 # Customising the Django Admin UI
